@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="Our Tangalle Story 💛 - A magical 3-year anniversary interactive storybook" />
+  <meta name="theme-color" content="#F7D774" />
+  <title>Our Tangalle Story 💛</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Dancing+Script:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="characters.css" />
+</head>
+<body>
+
+  <!-- ============ LOADING SCREEN ============ -->
+  <div id="loading-screen" class="loading-screen" role="status" aria-label="Loading Our Tangalle Story">
+    <div class="loading-particles" id="loading-particles"></div>
+    <div class="loading-content">
+      <div class="loading-heart-container">
+        <div class="loading-heart" aria-hidden="true">💛</div>
+        <div class="heart-glow"></div>
+        <div class="heart-rings">
+          <div class="heart-ring r1"></div>
+          <div class="heart-ring r2"></div>
+          <div class="heart-ring r3"></div>
+        </div>
+      </div>
+      <h1 class="loading-title">Our Tangalle Story</h1>
+      <p class="loading-subtitle">A magical journey of two hearts.</p>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <p class="loading-percent" id="loading-percent">0%</p>
+    </div>
+    <div class="loading-flowers" id="loading-flowers" aria-hidden="true"></div>
+  </div>
+
+  <!-- ============ LOCK SCREEN ============ -->
+  <div id="lock-screen" class="lock-screen" role="dialog" aria-modal="true" aria-label="Enter passcode to unlock">
+    <!-- Floating hearts background -->
+    <div class="lock-bg-hearts" id="lock-bg-hearts" aria-hidden="true"></div>
+    <!-- Sparkle particles -->
+    <div class="lock-particles" id="lock-particles" aria-hidden="true"></div>
+
+    <div class="lock-container">
+
+      <!-- LEFT: Photo polaroid -->
+      <div class="lock-photo-side">
+        <div class="lock-polaroid" id="lock-polaroid">
+          <div class="polaroid-inner">
+            <img src="assets/images/final-photo.jpg" alt="Us 💛"
+              class="polaroid-img" id="polaroid-img"
+              onerror="this.style.display='none';document.getElementById('polaroid-placeholder').style.display='flex'"/>
+            <div class="polaroid-placeholder" id="polaroid-placeholder" style="display:none">
+              <span>💛</span>
+            </div>
+          </div>
+          <p class="polaroid-caption">Our Tangalle Story 💛</p>
+          <div class="polaroid-bow" aria-hidden="true">🎀</div>
+        </div>
+
+        <!-- Emotional hint below photo -->
+        <div class="lock-hint-box" id="lock-hint-box" aria-live="polite">
+          <p class="lock-hint-text" id="lock-hint-text">
+            "Only the one who knows the date<br/>can enter this love story 💛"
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: PIN Pad -->
+      <div class="lock-pad-side">
+        <p class="lock-label">Enter the passcode</p>
+        <p class="lock-sublabel" id="lock-sublabel">Hint: Our special date 🗓️</p>
+
+        <!-- 4 digit display -->
+        <div class="lock-digits" id="lock-digits" aria-label="Entered digits" aria-live="polite">
+          <div class="lock-digit" id="ld0"></div>
+          <div class="lock-digit" id="ld1"></div>
+          <div class="lock-digit" id="ld2"></div>
+          <div class="lock-digit" id="ld3"></div>
+        </div>
+
+        <!-- Number pad -->
+        <div class="lock-keypad" role="group" aria-label="Number keypad">
+          <button class="key-btn" data-val="1" aria-label="1">1</button>
+          <button class="key-btn" data-val="2" aria-label="2">2</button>
+          <button class="key-btn" data-val="3" aria-label="3">3</button>
+          <button class="key-btn" data-val="4" aria-label="4">4</button>
+          <button class="key-btn" data-val="5" aria-label="5">5</button>
+          <button class="key-btn" data-val="6" aria-label="6">6</button>
+          <button class="key-btn" data-val="7" aria-label="7">7</button>
+          <button class="key-btn" data-val="8" aria-label="8">8</button>
+          <button class="key-btn" data-val="9" aria-label="9">9</button>
+          <button class="key-btn key-clear" data-val="clear" aria-label="Clear">⌫</button>
+          <button class="key-btn" data-val="0" aria-label="0">0</button>
+          <button class="key-btn key-enter" data-val="enter" aria-label="Enter">💛</button>
+        </div>
+
+        <p class="lock-wrong-msg" id="lock-wrong-msg" aria-live="assertive"></p>
+      </div>
+
+    </div>
+
+    <!-- Unlock success overlay -->
+    <div class="lock-success-overlay" id="lock-success-overlay" style="display:none;" aria-hidden="true">
+      <div class="lock-success-content">
+        <div class="lock-success-heart">💛</div>
+        <p class="lock-success-text">You know our story 💛</p>
+        <p class="lock-success-sub">Opening our journey...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EMOTIONAL QUESTIONS SCREEN ============ -->
+  <div id="questions-screen" class="questions-screen" style="display:none;" role="dialog" aria-modal="true" aria-label="Emotional questions">
+    <div class="q-bg-particles" id="q-bg-particles" aria-hidden="true"></div>
+    <div class="questions-container">
+      <div class="q-header">
+        <div class="q-heart-icon" aria-hidden="true">💛</div>
+        <p class="q-progress" id="q-progress">1 / 5</p>
+      </div>
+
+      <div class="q-card" id="q-card">
+        <div class="q-emoji" id="q-emoji">🌊</div>
+        <p class="q-question" id="q-question">Loading...</p>
+      </div>
+
+      <div class="q-choices" id="q-choices" role="group" aria-label="Answer choices"></div>
+
+      <div class="q-feedback" id="q-feedback" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- ============ MUSIC TOGGLE ============ -->
+  <button class="music-btn" id="music-btn" aria-label="Toggle background music" title="Toggle music">
+    <span class="music-icon" id="music-icon">🎵</span>
+    <span class="music-label" id="music-label">Music</span>
+  </button>
+  <audio id="bg-music" loop preload="none">
+    <source src="assets/music/ocean-piano.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ============ MAIN WRAPPER ============ -->
+  <main id="app" class="app" aria-live="polite">
+
+    <!-- ====== HOME SCREEN ====== -->
+    <section id="screen-home" class="screen screen-home active" aria-label="Home">
+      <div class="home-bg">
+        <div class="home-sky">
+          <div class="clouds-layer" id="clouds-home" aria-hidden="true"></div>
+          <div class="birds-layer" id="birds-home" aria-hidden="true"></div>
+        </div>
+        <div class="home-sun" aria-hidden="true"></div>
+        <div class="sun-rays" aria-hidden="true"></div>
+        <div class="home-ocean" aria-hidden="true">
+          <div class="wave w1"></div>
+          <div class="wave w2"></div>
+          <div class="wave w3"></div>
+          <div class="wave w4"></div>
+        </div>
+        <div class="home-sand" aria-hidden="true"></div>
+        <div class="home-palms" aria-hidden="true">
+          <div class="palm palm-left"></div>
+          <div class="palm palm-right"></div>
+        </div>
+        <div class="sparkles-layer" id="sparkles-home" aria-hidden="true"></div>
+        <div class="butterflies-layer" id="butterflies-home" aria-hidden="true"></div>
+        <div class="petals-layer" id="petals-home" aria-hidden="true"></div>
+      </div>
+
+      <div class="home-content">
+        <div class="home-top-emoji" aria-hidden="true">💛</div>
+        <h1 class="home-title">Our Tangalle Story</h1>
+        <p class="home-date">July 29, 2026 · 3 Years 💛</p>
+        <p class="home-subtitle">Happy 3 Years 💛 To Our Tangalle Journey</p>
+        <p class="home-desc">A magical journey of two hearts meeting for the very first time.</p>
+        <button class="btn-begin" id="btn-begin" aria-label="Begin our journey">
+          <span class="btn-begin-text">Begin Our Journey</span>
+          <span class="btn-begin-heart" aria-hidden="true">💛</span>
+        </button>
+      </div>
+
+      <!-- COUPLE: HE LIFTS HER — emoji cartoon style -->
+      <div class="home-characters" aria-hidden="true" id="home-couple">
+        <div class="home-couple-wrap">
+          <span class="couple-emoji-main">💑</span>
+          <div class="couple-hearts-row">
+            <span class="couple-h">💛</span>
+            <span class="couple-h">🌸</span>
+            <span class="couple-h">💛</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER MAP ====== -->
+    <section id="screen-map" class="screen screen-map" aria-label="Story chapters map">
+      <div class="map-bg">
+        <div class="map-particles" id="map-particles" aria-hidden="true"></div>
+      </div>
+      <div class="map-content">
+        <h2 class="map-title">Our Journey Map 💛</h2>
+        <p class="map-subtitle">Tap each chapter to relive the memory</p>
+        <div class="chapters-grid" id="chapters-grid" role="list">
+          <!-- Chapters rendered by JS -->
+        </div>
+        <button class="btn-scrapbook" id="btn-scrapbook" aria-label="Open memory scrapbook">
+          📖 Memory Scrapbook
+        </button>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 1: THE BUS RIDE ====== -->
+    <section id="screen-ch1" class="screen screen-chapter" aria-label="Chapter 1: The Bus Ride">
+
+      <!-- FULL BUS INTERIOR SCENE -->
+      <div class="bus-full-scene" id="bus-full-scene" aria-hidden="true">
+
+        <!-- Bus ceiling bar & lights -->
+        <div class="bus-ceiling">
+          <div class="bus-ceil-bar"></div>
+          <div class="bus-handle bh1"></div>
+          <div class="bus-handle bh2"></div>
+          <div class="bus-handle bh3"></div>
+          <div class="bus-interior-light bil1"></div>
+          <div class="bus-interior-light bil2"></div>
+        </div>
+
+        <!-- Windows row — scenery scrolling past -->
+        <div class="bus-windows-row">
+          <div class="bus-win-frame">
+            <div class="bus-win-glass">
+              <div class="bus-win-sky"></div>
+              <div class="bus-win-trees"></div>
+              <div class="bus-win-road"></div>
+            </div>
+            <div class="bus-win-border"></div>
+          </div>
+          <div class="bus-win-frame">
+            <div class="bus-win-glass">
+              <div class="bus-win-sky"></div>
+              <div class="bus-win-trees bwt-offset"></div>
+              <div class="bus-win-road"></div>
+            </div>
+            <div class="bus-win-border"></div>
+          </div>
+          <div class="bus-win-frame">
+            <div class="bus-win-glass">
+              <div class="bus-win-sky"></div>
+              <div class="bus-win-trees"></div>
+              <div class="bus-win-road"></div>
+            </div>
+            <div class="bus-win-border"></div>
+          </div>
+        </div>
+
+        <!-- Seat rows — the scene -->
+        <div class="bus-seats-scene">
+          <!-- Row A: empty seats behind -->
+          <div class="bus-seat-row">
+            <div class="bus-scene-seat occupied"><span class="seat-passenger">🧑‍🦱</span></div>
+            <div class="bus-scene-seat occupied"><span class="seat-passenger">👨</span></div>
+            <div class="bus-scene-seat"><span class="seat-empty-icon">💺</span></div>
+            <div class="bus-scene-seat occupied"><span class="seat-passenger">👩</span></div>
+          </div>
+          <!-- Row B: HER ROW — she's sitting, saved seat beside her glowing -->
+          <div class="bus-seat-row her-row" id="her-seat-row">
+            <div class="bus-scene-seat occupied her-seat" id="her-actual-seat">
+              <!-- HER — girl with long hair, white dress, waiting -->
+              <div class="bus-girl-char" id="bus-girl-char">
+                <div class="bgc-hair"></div>
+                <div class="bgc-face">
+                  <div class="bgc-eyes">
+                    <div class="bgc-eye"></div>
+                    <div class="bgc-eye"></div>
+                  </div>
+                  <div class="bgc-blush l"></div>
+                  <div class="bgc-blush r"></div>
+                </div>
+                <div class="bgc-body"></div>
+                <!-- Her arm saved the seat -->
+                <div class="bgc-arm-save" id="bgc-arm-save"></div>
+              </div>
+              <div class="her-name-tag">Her 💛</div>
+            </div>
+            <!-- SAVED SEAT — glowing, special -->
+            <div class="bus-scene-seat saved-seat-spot" id="saved-seat-spot">
+              <div class="saved-seat-glow-ring"></div>
+              <div class="saved-seat-heart">💛</div>
+              <div class="saved-seat-label">Saved for<br/>you 💛</div>
+            </div>
+            <div class="bus-scene-seat"><span class="seat-empty-icon">💺</span></div>
+            <div class="bus-scene-seat occupied"><span class="seat-passenger">👴</span></div>
+          </div>
+        </div>
+
+        <!-- Bus aisle floor -->
+        <div class="bus-aisle"></div>
+
+        <!-- BOY walking in from door — hidden initially -->
+        <div class="bus-boy-entry" id="bus-boy-entry">
+          <div class="bus-boy-char" id="bus-boy-char">
+            <!-- Backpack -->
+            <div class="bbc-backpack"></div>
+            <!-- Body (yellow shirt) -->
+            <div class="bbc-body"></div>
+            <!-- Head -->
+            <div class="bbc-face">
+              <div class="bbc-hair"></div>
+              <div class="bbc-eyes">
+                <div class="bbc-eye"></div>
+                <div class="bbc-eye"></div>
+              </div>
+              <div class="bbc-smile"></div>
+            </div>
+          </div>
+          <div class="boy-name-tag">Him 💛</div>
+        </div>
+
+        <!-- Ambient dust particles in bus -->
+        <div class="bus-dust" id="bus-dust"></div>
+      </div>
+
+      <!-- Story & Game overlay (scrolls on top) -->
+      <div class="chapter-overlay ch1-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 1</span>
+          <h2 class="ch-title">The Bus Ride 🚌</h2>
+        </div>
+
+        <div class="story-text-box" id="ch1-story">
+          <p class="story-text">On <strong>July 29, 2026</strong>, I waited for you by saving the seat next to me.</p>
+          <p class="story-text">You came from Tissa after riding your bike. Then you entered the bus carrying your big backpack while wearing your beautiful <strong>yellow shirt</strong>.</p>
+          <p class="story-text">The very first thing I did was gently touch your cheek. <em>Our story finally became real.</em> 💛</p>
+          <button class="btn-play-game" data-chapter="1" aria-label="Play the bus seat game">Find the Seat 💛</button>
+        </div>
+
+        <!-- CREATIVE SEAT GAME -->
+        <div class="game-area" id="game-ch1" style="display:none;" aria-label="Bus seat game">
+          <p class="game-instruction">💛 Tap the glowing saved seat!</p>
+          <p class="game-sub-instruction">She kept it just for you... 🥺</p>
+
+          <!-- 3D-style bus interior game view -->
+          <div class="seat-game-bus" id="seat-game-bus">
+            <!-- Bus header bar -->
+            <div class="sgb-topbar">
+              <div class="sgb-light l"></div>
+              <div class="sgb-route">🚌 Tissamaharama → Tangalle</div>
+              <div class="sgb-light r"></div>
+            </div>
+            <!-- Window strip -->
+            <div class="sgb-window-strip">
+              <div class="sgb-win-scroll" id="sgb-win-scroll"></div>
+            </div>
+            <!-- Seats grid — 3 rows × 4 seats -->
+            <div class="sgb-seats-wrap" id="sgb-seats-wrap">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+
+          <div class="game-feedback" id="game-feedback-ch1" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 2: THE BLESSED RESTAURANT ====== -->
+    <section id="screen-ch2" class="screen screen-chapter" aria-label="Chapter 2: The Blessed Restaurant">
+      <div class="chapter-bg bg-restaurant">
+        <div class="restaurant-decor" aria-hidden="true">
+          <div class="rest-light rl1"></div>
+          <div class="rest-light rl2"></div>
+          <div class="rest-light rl3"></div>
+          <div class="rest-table"></div>
+          <div class="rest-food">
+            <div class="food-item fi1">🍚</div>
+            <div class="food-item fi2">🍛</div>
+            <div class="food-item fi3">🥗</div>
+          </div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 2</span>
+          <h2 class="ch-title">The Blessed Restaurant 🍚</h2>
+        </div>
+        <div class="story-text-box" id="ch2-story">
+          <p class="story-text">We ate together at a warm traditional restaurant.</p>
+          <p class="story-text">An <strong>aunty</strong> came and blessed us using incense smoke. Maybe the universe quietly blessed our love that day. ✨</p>
+          <button class="btn-play-game" data-chapter="2" aria-label="Play the blessing game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch2" style="display:none;" aria-label="Incense blessing game">
+          <p class="game-instruction">✨ Guide the aunty's incense to bless the couple</p>
+          <div class="blessing-game" id="blessing-game">
+            <!-- Couple waiting — emoji style -->
+            <div class="blessing-couple" id="blessing-couple" aria-label="Couple waiting for blessing">
+              <div class="scene-row" style="margin:0;border:none;background:transparent;gap:0.3rem;">
+                <div class="scene-char">
+                  <span class="scene-char-emoji girl">👧</span>
+                </div>
+                <span style="font-size:1rem;align-self:center;margin-bottom:8px;">🤝</span>
+                <div class="scene-char">
+                  <span class="scene-char-emoji boy">🧑</span>
+                </div>
+              </div>
+              <div class="blessing-glow" id="blessing-glow" style="opacity:0;" aria-hidden="true"></div>
+            </div>
+
+            <!-- Aunty with incense -->
+            <div class="incense-zone" id="incense-zone">
+              <div style="text-align:center;margin-bottom:0.4rem;font-size:0.75rem;color:var(--soft-brown);font-style:italic;">
+                Drag the incense to bless the couple ✨
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <span style="font-size:1.8rem;">👵</span>
+                <div class="incense-stick" id="incense-stick" draggable="true" role="button" tabindex="0"
+                  aria-label="Incense - drag to couple"
+                  style="cursor:grab;font-size:2rem;display:block;">🪷</div>
+              </div>
+              <div class="smoke-trail" id="smoke-trail" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="game-feedback" id="game-feedback-ch2" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 3: THE TEMPLE ====== -->
+    <section id="screen-ch3" class="screen screen-chapter" aria-label="Chapter 3: The Temple">
+      <div class="chapter-bg bg-temple">
+        <div class="temple-decor" aria-hidden="true">
+          <div class="bodhi-tree"></div>
+          <div class="temple-lights">
+            <div class="t-light tl1"></div>
+            <div class="t-light tl2"></div>
+            <div class="t-light tl3"></div>
+            <div class="t-light tl4"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 3</span>
+          <h2 class="ch-title">The Temple 🙏</h2>
+        </div>
+        <div class="story-text-box" id="ch3-story">
+          <p class="story-text">We carried a water pot and walked around the Bodhi tree together.</p>
+          <p class="story-text">His hand was bandaged, yet he held mine. We prayed not only for today, but <em>for every tomorrow together.</em> 🙏</p>
+          <button class="btn-play-game" data-chapter="3" aria-label="Play the flower arrangement game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch3" style="display:none;" aria-label="Prayer flower arrangement game">
+          <p class="game-instruction">🙏 Arrange the prayer flowers in the correct order</p>
+
+          <!-- Temple walk animation -->
+          <div class="temple-walk-wrap" aria-hidden="true">
+            <span class="temple-walk-emoji">👧</span>
+            <span style="font-size:1rem;">🤝</span>
+            <span class="temple-walk-emoji" style="animation-delay:0.3s;">🧑</span>
+            <span style="font-size:1.2rem;margin-left:4px;">🌿</span>
+          </div>
+          <p style="text-align:center;font-size:0.72rem;color:var(--soft-brown);font-style:italic;margin-bottom:0.5rem;">
+            His bandaged hand held yours the whole way 🤍
+          </p>
+
+          <div class="temple-game" id="temple-game">
+            <div class="flower-tray" id="flower-tray" role="group" aria-label="Available flowers"></div>
+            <div class="flower-altar" id="flower-altar" role="group" aria-label="Altar - place flowers here"></div>
+          </div>
+          <div class="game-feedback" id="game-feedback-ch3" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 4: TANGALLE BEACH ====== -->
+    <section id="screen-ch4" class="screen screen-chapter" aria-label="Chapter 4: Tangalle Beach">
+      <div class="chapter-bg bg-beach">
+        <div class="beach-scene" aria-hidden="true">
+          <div class="beach-sky-grad"></div>
+          <div class="beach-waves-bg">
+            <div class="bwave bw1"></div>
+            <div class="bwave bw2"></div>
+            <div class="bwave bw3"></div>
+          </div>
+          <div class="beach-sand-bg"></div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 4</span>
+          <h2 class="ch-title">Tangalle Beach 🌊</h2>
+        </div>
+        <div class="story-text-box" id="ch4-story">
+          <p class="story-text">Golden sunset painted the ocean in shades of honey and amber.</p>
+          <p class="story-text">We walked together, took photos, recorded little videos — <em>capturing every magical second.</em> 📸</p>
+          <button class="btn-play-game" data-chapter="4" aria-label="Play the photo memory game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch4" style="display:none;" aria-label="Photo memory matching game">
+          <p class="game-instruction">📸 Tap correct Tangalle memories — choose 4!</p>
+
+          <!-- Hand-holding scene -->
+          <div class="hold-hands-scene" aria-hidden="true">
+            <span class="scene-char-emoji girl">👧</span>
+            <span class="holding-hands-emoji">🤝</span>
+            <span class="scene-char-emoji boy">🧑</span>
+            <span style="font-size:1rem;margin-left:4px;">📸</span>
+          </div>
+
+          <div class="photo-game" id="photo-game" role="group" aria-label="Photo choices"></div>
+          <div class="game-feedback" id="game-feedback-ch4" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 5: JUICES ====== -->
+    <section id="screen-ch5" class="screen screen-chapter" aria-label="Chapter 5: Juices by the Beach">
+      <div class="chapter-bg bg-juice-shop">
+        <div class="juice-shop-decor" aria-hidden="true">
+          <div class="shop-roof"></div>
+          <div class="shop-counter"></div>
+          <div class="ocean-bg-far"></div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 5</span>
+          <h2 class="ch-title">Juices by the Beach 🍋🥑</h2>
+        </div>
+        <div class="story-text-box" id="ch5-story">
+          <p class="story-text">Before leaving the beautiful beach, we stopped for fresh juice.</p>
+          <p class="story-text">He chose his drink. I chose mine. Together under the fading golden sky. 🍋🥑</p>
+          <button class="btn-play-game" data-chapter="5" aria-label="Play the find our drinks game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch5" style="display:none;" aria-label="Find our drinks game">
+          <p class="game-instruction">🍹 Find <strong>his drink</strong> 🧡 then <strong>your drink</strong> 💛</p>
+          <p class="game-sub-instruction">From the photos — she drank avocado juice with a straw 🥑</p>
+
+          <!-- Juice scene with characters -->
+          <div class="juice-scene-chars" aria-hidden="true">
+            <div class="juice-chars-row">
+              <div class="juice-char-block">
+                <span class="scene-char-emoji boy">🧑</span>
+                <div class="drink-glass glass-lime"></div>
+                <span class="glass-label">🍋 His</span>
+                <span class="bandage-tag">🩹 bandaged hand</span>
+              </div>
+              <span style="font-size:1.2rem;align-self:center;margin:0 0.5rem 8px;">💛</span>
+              <div class="juice-char-block">
+                <span class="scene-char-emoji girl">👧</span>
+                <div class="drink-glass glass-avocado"></div>
+                <span class="glass-label">🥑 Her</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="juice-game" id="juice-game" role="group" aria-label="Drink choices"></div>
+          <div class="juice-selection" id="juice-selection">
+            <div class="selection-slot" id="boy-slot">His drink: <span id="boy-drink-display">?</span></div>
+            <div class="selection-slot" id="girl-slot">Your drink: <span id="girl-drink-display">?</span></div>
+          </div>
+          <button class="btn-confirm-juice" id="btn-confirm-juice" style="display:none;" aria-label="Confirm drink selection">💛 That's Us!</button>
+          <div class="game-feedback" id="game-feedback-ch5" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 6: ICE CREAM ====== -->
+    <section id="screen-ch6" class="screen screen-chapter" aria-label="Chapter 6: Sharing One Ice Cream">
+      <div class="chapter-bg bg-ice-cream">
+        <div class="evening-beach-decor" aria-hidden="true">
+          <div class="eve-sky"></div>
+          <div class="eve-ocean">
+            <div class="ewave ew1"></div>
+            <div class="ewave ew2"></div>
+          </div>
+          <div class="eve-sand"></div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 6</span>
+          <h2 class="ch-title">Sharing One Ice Cream 🍦</h2>
+        </div>
+        <div class="story-text-box" id="ch6-story">
+          <p class="story-text">As the evening softened the sky, we shared one single ice cream cone.</p>
+          <p class="story-text"><em>"One ice cream. Two happy hearts."</em> 🍦</p>
+          <button class="btn-play-game" data-chapter="6" aria-label="Play the ice cream game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch6" style="display:none;" aria-label="Ice cream sharing game">
+          <p class="game-instruction">🍦 Move both hands together to share!</p>
+
+          <div class="icecream-game" id="icecream-game">
+            <!-- Characters on either side -->
+            <div class="icecream-chars-row" aria-hidden="true">
+              <div class="icecream-char-side">
+                <span class="icecream-char-emoji">👧</span>
+                <span style="font-size:0.65rem;color:var(--soft-brown);">Her 👋</span>
+              </div>
+              <div class="icecream-center" id="icecream-center">
+                <div class="icecream-cone" id="icecream-cone" aria-label="Ice cream cone">🍦</div>
+              </div>
+              <div class="icecream-char-side">
+                <span class="icecream-char-emoji right-char">🧑</span>
+                <span style="font-size:0.65rem;color:var(--soft-brown);">His 👋</span>
+              </div>
+            </div>
+
+            <div class="hand-zone">
+              <button class="hand-btn hand-left" id="hand-left" aria-label="Move her hand right">👋 Her hand →</button>
+              <button class="hand-btn hand-right" id="hand-right" aria-label="Move his hand left">← His hand 👋</button>
+            </div>
+            <div class="hands-container" aria-hidden="true">
+              <div class="game-hand gh-left" id="gh-left">🤚</div>
+              <div class="game-hand gh-right" id="gh-right">🤚</div>
+            </div>
+          </div>
+          <div class="game-feedback" id="game-feedback-ch6" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 7: YELLOW DRESS ====== -->
+    <section id="screen-ch7" class="screen screen-chapter" aria-label="Chapter 7: The Yellow Dress">
+      <div class="chapter-bg bg-shopping">
+        <div class="shopping-decor" aria-hidden="true">
+          <div class="shop-street"></div>
+          <div class="shop-stalls">
+            <div class="stall s1"></div>
+            <div class="stall s2"></div>
+            <div class="stall s3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 7</span>
+          <h2 class="ch-title">The Yellow Dress 💛</h2>
+        </div>
+        <div class="story-text-box" id="ch7-story">
+          <p class="story-text">Along the Tangalle shopping street, you kept searching.</p>
+          <p class="story-text"><em>"You kept searching until you found the most beautiful yellow dress for me."</em> 💛</p>
+          <button class="btn-play-game" data-chapter="7" aria-label="Play the find the dress game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch7" style="display:none;" aria-label="Find the yellow dress game">
+          <p class="game-instruction">💛 Find the exact dress he bought for her!</p>
+          <p class="game-sub-instruction" style="font-size:0.8rem;color:var(--soft-brown);">
+            Hint: She wore it at the beach 🌊 — Yellow with a beautiful cut
+          </p>
+
+          <!-- Girl character try-on preview -->
+          <div id="dress-try-on" aria-hidden="true">
+            <span class="dress-try-char" id="dress-try-char">👧</span>
+            <p id="try-on-label" style="font-size:0.7rem;color:var(--soft-brown);font-style:italic;">tap a dress to try on...</p>
+          </div>
+
+          <div class="dress-game" id="dress-game" role="group" aria-label="Dress choices"></div>
+          <div class="game-feedback" id="game-feedback-ch7" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CHAPTER 8: JOURNEY HOME ====== -->
+    <section id="screen-ch8" class="screen screen-chapter" aria-label="Chapter 8: The Journey Home">
+      <div class="chapter-bg bg-night-bus">
+        <div class="night-bus-decor" aria-hidden="true">
+          <div class="nb-window nb-w1">
+            <div class="rain-container" id="rain-container1"></div>
+          </div>
+          <div class="nb-window nb-w2">
+            <div class="rain-container" id="rain-container2"></div>
+          </div>
+          <div class="nb-interior-light"></div>
+        </div>
+      </div>
+      <div class="chapter-overlay">
+        <div class="chapter-header">
+          <span class="ch-num">Chapter 8</span>
+          <h2 class="ch-title">The Journey Home 🌙</h2>
+        </div>
+        <div class="story-text-box" id="ch8-story">
+          <p class="story-text">Rain fell softly against the bus windows as we headed home.</p>
+          <p class="story-text"><em>"I rested my head on your shoulder. Your shoulder became my safest place."</em> 🤍</p>
+          <button class="btn-play-game" data-chapter="8" aria-label="Play the heartbeat game">Play the Memory 🎮</button>
+        </div>
+        <div class="game-area" id="game-ch8" style="display:none;" aria-label="Heartbeat matching game">
+          <p class="game-instruction">💓 Tap the heart to match her rhythm!</p>
+
+          <!-- Shoulder scene — emoji -->
+          <div class="shoulder-scene-wrap" aria-hidden="true">
+            <span class="shoulder-girl">👧</span>
+            <span class="shoulder-boy">🧑</span>
+          </div>
+          <p style="text-align:center;font-size:0.72rem;color:var(--soft-brown);font-style:italic;margin-bottom:0.5rem;">
+            "Your shoulder became my safest place" 🤍
+          </p>
+
+          <div class="heartbeat-game" id="heartbeat-game">
+            <div class="heart-display" id="heart-display" aria-hidden="true">💓</div>
+            <div class="rhythm-track" id="rhythm-track" aria-label="Heartbeat rhythm to match"></div>
+            <button class="btn-tap-heart" id="btn-tap-heart" aria-label="Tap to match heartbeat">TAP 💓</button>
+            <div class="rhythm-score" id="rhythm-score" aria-live="polite">Score: 0 / 5</div>
+          </div>
+          <div class="game-feedback" id="game-feedback-ch8" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== FINAL CHAPTER ====== -->
+    <section id="screen-final" class="screen screen-final" aria-label="Final chapter - Our forever">
+      <div class="final-bg">
+        <div class="final-sky" aria-hidden="true">
+          <div class="final-stars" id="final-stars"></div>
+          <div class="final-moon" aria-hidden="true"></div>
+        </div>
+        <div class="final-ocean-wrap" aria-hidden="true">
+          <div class="final-wave fw1"></div>
+          <div class="final-wave fw2"></div>
+          <div class="final-wave fw3"></div>
+        </div>
+        <div class="final-sand" aria-hidden="true"></div>
+        <div class="lanterns-container" id="lanterns-container" aria-hidden="true"></div>
+        <div class="fireflies-container" id="fireflies-container" aria-hidden="true"></div>
+        <div class="couple-silhouette" aria-hidden="true">
+          <!-- Matches their real beach rocks photo — she in white dress, he in yellow shirt -->
+          <div class="sil-girl" title="Her - white dress, long hair"></div>
+          <div class="sil-boy" title="Him - yellow shirt"></div>
+          <div class="sil-hearts" id="sil-hearts"></div>
+          <!-- Lift pose silhouette hint -->
+          <div class="sil-lift-hint" style="position:absolute;bottom:0;font-size:2rem;opacity:0.4;animation:silHover 4s ease-in-out infinite;">💑</div>
+        </div>
+      </div>
+      <div class="final-content">
+        <div class="final-photo-frame">
+          <div class="photo-upload-area" id="photo-upload-area">
+            <img src="assets/images/final-photo.jpg" alt="Our photo together" id="final-photo-img" class="final-photo-img" onerror="this.style.display='none'; document.getElementById('photo-placeholder').style.display='flex'" />
+            <div class="photo-placeholder" id="photo-placeholder" style="display:none;">
+              <span>💛</span>
+              <p>Place your photo at<br/>assets/images/final-photo.jpg</p>
+            </div>
+          </div>
+          <div class="photo-frame-deco" aria-hidden="true"></div>
+        </div>
+        <div class="final-letter-wrap">
+          <h2 class="final-title">Our Forever 💛</h2>
+          <div class="final-letter" id="final-letter" aria-label="Love letter"></div>
+        </div>
+        <button class="btn-scrapbook-final" id="btn-scrapbook-final" aria-label="View our complete scrapbook">
+          📖 View Our Memories
+        </button>
+      </div>
+    </section>
+
+    <!-- ====== MEMORY SCRAPBOOK ====== -->
+    <section id="screen-scrapbook" class="screen screen-scrapbook" aria-label="Memory Scrapbook">
+      <div class="scrapbook-bg" aria-hidden="true">
+        <div class="sb-particles" id="sb-particles"></div>
+      </div>
+      <div class="scrapbook-content">
+        <button class="btn-back" id="btn-back-scrapbook" aria-label="Go back">← Back</button>
+        <h2 class="sb-title">Memory Scrapbook 📖</h2>
+        <p class="sb-subtitle">Every memory we unlocked together</p>
+        <div class="memories-grid" id="memories-grid" role="list" aria-label="Unlocked memories">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="gallery-section">
+          <h3 class="gallery-title">Photo Gallery 📸</h3>
+          <div class="photo-gallery" id="photo-gallery" role="list" aria-label="Photo gallery"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== NAVIGATION ARROWS ====== -->
+  <nav class="chapter-nav" id="chapter-nav" aria-label="Chapter navigation" style="display:none;">
+    <button class="nav-btn nav-prev" id="nav-prev" aria-label="Previous chapter">‹</button>
+    <div class="nav-dots" id="nav-dots" role="tablist" aria-label="Chapter indicators"></div>
+    <button class="nav-btn nav-next" id="nav-next" aria-label="Next chapter">›</button>
+  </nav>
+
+  <!-- ====== UNLOCK TOAST ====== -->
+  <div class="unlock-toast" id="unlock-toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ====== HEART BURST OVERLAY ====== -->
+  <div class="heart-burst-overlay" id="heart-burst-overlay" aria-hidden="true"></div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+/* ============================================================
+   Our Tangalle Story 💛 — CHARACTER STYLES
+   Simple, clean cartoon characters — no broken inline HTML
+   ============================================================ */
+
+:root {
+  --skin: #c8865a;
+  --skin-dark: #a0673a;
+  --hair-color: #1a0800;
+  --boy-yellow: #F7D774;
+  --girl-white: #f0ede4;
+  --pants-beige: #d4c4a0;
+}
+
+/* ============================================================
+   EMOJI-BASED CHARACTERS — reliable across all browsers
+   We use styled emoji + CSS for the character scenes
+   ============================================================ */
+
+/* Home screen couple */
+.home-characters {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  text-align: center;
+}
+
+.home-couple-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: coupleLift 3s ease-in-out infinite;
+  filter: drop-shadow(0 6px 16px rgba(139,105,20,0.35));
+}
+
+@keyframes coupleLift {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+
+.couple-emoji-main {
+  font-size: clamp(3.5rem, 10vw, 5.5rem);
+  line-height: 1;
+  display: block;
+}
+
+.couple-hearts-row {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: center;
+  margin-top: 0.2rem;
+}
+
+.couple-h {
+  font-size: 0.9rem;
+  animation: heartPop ease-in-out infinite;
+}
+
+.couple-h:nth-child(1) { animation-duration: 1.8s; animation-delay: 0s; }
+.couple-h:nth-child(2) { animation-duration: 2.2s; animation-delay: 0.3s; }
+.couple-h:nth-child(3) { animation-duration: 1.6s; animation-delay: 0.6s; }
+
+@keyframes heartPop {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.7; }
+  50%       { transform: scale(1.4) translateY(-4px); opacity: 1; }
+}
+
+/* ============================================================
+   SCENE CHARACTERS — emoji-based, per chapter
+   ============================================================ */
+
+/* Generic scene row */
+.scene-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255,248,232,0.35);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(247,215,116,0.3);
+  margin-bottom: 0.6rem;
+}
+
+.scene-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scene-char-emoji {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  animation: charIdle 3s ease-in-out infinite;
+  line-height: 1;
+}
+
+.scene-char-emoji.girl { animation-delay: 0s; }
+.scene-char-emoji.boy  { animation-delay: 0.4s; }
+
+@keyframes charIdle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-4px) rotate(-2deg); }
+}
+
+.scene-char-label {
+  font-family: var(--font-romantic);
+  font-size: 0.65rem;
+  color: var(--soft-brown);
+  font-style: italic;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Heart connector between characters */
+.scene-heart-link {
+  font-size: 1rem;
+  align-self: center;
+  margin-bottom: 12px;
+  animation: heartPop 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   BUS SCENE
+   ============================================================ */
+.bus-char-area {
+  min-height: 55px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(60,40,10,0.15);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.6rem;
+  border: 1px dashed rgba(247,215,116,0.2);
+}
+
+.bus-waiting-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bus-waiting-char .scene-char-emoji {
+  animation: girlWait 2s ease-in-out infinite;
+}
+
+@keyframes girlWait {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+
+/* Boy walks in animation */
+.bus-boy-enter .scene-char-emoji {
+  animation: boyWalkIn 1.2s ease-out forwards, charIdle 3s ease-in-out 1.2s infinite;
+}
+
+@keyframes boyWalkIn {
+  0%   { transform: translateX(60px); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ============================================================
+   HAND HOLDING SCENE
+   ============================================================ */
+.hold-hands-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.4rem;
+  background: rgba(255,248,232,0.35);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(247,215,116,0.3);
+  margin-bottom: 0.5rem;
+  animation: holdSceneFloat 3s ease-in-out infinite;
+}
+
+@keyframes holdSceneFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+.hold-hands-scene .scene-char-emoji {
+  font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+}
+
+.holding-hands-emoji {
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  animation: heartPop 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   DRINK GLASSES — CSS art
+   ============================================================ */
+.drink-glass {
+  width: 24px;
+  height: 32px;
+  border-radius: 3px 3px 6px 6px;
+  position: relative;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  margin: 0 auto;
+}
+
+.drink-glass::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 5px; height: 12px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 2px;
+}
+
+/* Straw */
+.drink-glass::after {
+  content: '';
+  position: absolute;
+  width: 2.5px;
+  height: 16px;
+  border-radius: 1px;
+  top: -14px;
+}
+
+.glass-avocado {
+  background: linear-gradient(180deg, #8bc34a 0%, #558b2f 100%);
+}
+.glass-avocado::after {
+  right: 5px;
+  background: #ff9800;
+}
+
+.glass-lime {
+  background: linear-gradient(180deg, #cddc39 0%, #9e9d24 100%);
+}
+.glass-lime::after {
+  left: 5px;
+  background: #4caf50;
+}
+
+.glass-label {
+  font-size: 0.6rem;
+  color: var(--soft-brown);
+  font-style: italic;
+  text-align: center;
+  margin-top: 2px;
+  font-family: var(--font-romantic);
+}
+
+/* ============================================================
+   JUICE SCENE
+   ============================================================ */
+.juice-scene-chars {
+  padding: 0.5rem 0.5rem 0.3rem;
+  background: rgba(255,248,232,0.4);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(247,215,116,0.35);
+  margin-bottom: 0.6rem;
+}
+
+.juice-chars-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.juice-char-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Bandage indicator on his hand */
+.bandage-tag {
+  font-size: 0.6rem;
+  background: rgba(245,240,232,0.9);
+  border: 1px solid #d4c8b4;
+  border-radius: 3px;
+  padding: 1px 4px;
+  color: var(--soft-brown);
+  font-style: italic;
+}
+
+/* ============================================================
+   DRESS TRY-ON AREA
+   ============================================================ */
+#dress-try-on {
+  background: rgba(255,248,232,0.45);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem;
+  border: 1px dashed rgba(247,215,116,0.4);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.dress-try-char {
+  font-size: clamp(2rem, 7vw, 3rem);
+  display: block;
+  margin: 0 auto 0.2rem;
+  transition: filter 0.4s ease;
+  animation: charIdle 3s ease-in-out infinite;
+}
+
+.dress-try-char.yellow-glow {
+  filter: drop-shadow(0 0 12px rgba(247,215,116,0.9)) drop-shadow(0 0 24px rgba(255,180,0,0.5));
+  animation: yellowDressGlow 1.5s ease-in-out infinite;
+}
+
+/* ============================================================
+   SHOULDER / NIGHT BUS SCENE
+   ============================================================ */
+.shoulder-scene-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.4rem 0.5rem;
+  background: rgba(10,10,40,0.2);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(200,200,255,0.15);
+  margin-bottom: 0.5rem;
+  gap: 0;
+}
+
+.shoulder-girl {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  transform: rotate(-8deg) translateX(6px);
+  animation: girlLeanShoulder 4s ease-in-out infinite;
+  display: block;
+}
+
+.shoulder-boy {
+  font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+  display: block;
+  animation: charIdle 4s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes girlLeanShoulder {
+  0%, 100% { transform: rotate(-8deg) translateX(6px) translateY(0); }
+  50%       { transform: rotate(-10deg) translateX(8px) translateY(-2px); }
+}
+
+/* ============================================================
+   TEMPLE WALK SCENE
+   ============================================================ */
+.temple-walk-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  background: rgba(20,80,20,0.12);
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(100,200,100,0.25);
+  margin-bottom: 0.5rem;
+}
+
+.temple-walk-emoji {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  animation: templeWalk 2s ease-in-out infinite;
+}
+
+@keyframes templeWalk {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%       { transform: translateY(-5px) rotate(3deg); }
+}
+
+/* ============================================================
+   ICE CREAM GAME CHARACTERS
+   ============================================================ */
+.icecream-chars-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.4rem;
+  padding: 0 0.5rem;
+}
+
+.icecream-char-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.icecream-char-emoji {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  animation: charIdle 3s ease-in-out infinite;
+}
+
+.icecream-char-emoji.right-char {
+  animation-delay: 0.4s;
+}
+
+/* ============================================================
+   BUS SUCCESS SCENE
+   ============================================================ */
+.bus-success-scene {
+  text-align: center;
+  padding: 0.8rem;
+  animation: successPop 0.5s ease;
+}
+
+.bus-success-emojis {
+  font-size: clamp(2rem, 8vw, 3rem);
+  display: block;
+  margin-bottom: 0.4rem;
+  animation: coupleLift 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   BLESSING SUCCESS SCENE
+   ============================================================ */
+.blessing-success-wrap {
+  text-align: center;
+  animation: successPop 0.5s ease;
+}
+
+.blessing-glow-emoji {
+  font-size: 3rem;
+  animation: blessingGlow 1.5s ease-in-out infinite;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+@keyframes blessingGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(247,215,116,0.4)); transform: scale(1); }
+  50%       { filter: drop-shadow(0 0 24px rgba(247,215,116,1)); transform: scale(1.1); }
+}
+
+/* ============================================================
+   CHEERS ANIMATION
+   ============================================================ */
+.cheers-scene {
+  text-align: center;
+  padding: 1rem;
+  animation: successPop 0.5s ease;
+}
+
+.cheers-emoji {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  display: block;
+  margin-bottom: 0.4rem;
+  animation: cheersBounce 0.6s ease-in-out;
+}
+
+@keyframes cheersBounce {
+  0%   { transform: scale(0.8) rotate(-10deg); }
+  40%  { transform: scale(1.2) rotate(5deg); }
+  70%  { transform: scale(0.95) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* ============================================================
+   YELLOW DRESS GLOW ANIMATION
+   ============================================================ */
+@keyframes yellowDressGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(247,215,116,0.6));
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(247,215,116,1)) drop-shadow(0 0 40px rgba(255,180,0,0.6));
+    transform: translateY(-5px) scale(1.05);
+  }
+}
