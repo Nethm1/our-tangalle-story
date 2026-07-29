@@ -195,33 +195,35 @@ function finishLoading() {
 /* ============================================================
    MUSIC
    ============================================================ */
+/* ============================================================
+   MUSIC
+   ============================================================ */
 function initMusic() {
   const btn = $('music-btn');
   const audio = $('bg-music');
   if (!btn || !audio) return;
 
-  audio.volume = 0;
-  // Only set src if file likely exists (avoid console error spam)
-  audio.src = storyConfig.music.src;
-
-  // Listen for load error — show "add music" hint
-  audio.addEventListener('error', () => {
-    const label = $('music-label');
-    if (label) label.textContent = 'Add Music';
-    btn.title = 'Add ocean-piano.mp3 to assets/music/ folder';
-    btn.style.opacity = '0.7';
-  });
-
-  btn.addEventListener('click', () => {
-    if (!audio.src || audio.error) {
-      // No music file — show helpful toast
-      showUnlockToast('🎵 Add ocean-piano.mp3 to assets/music/ folder');
-      return;
-    }
-    toggleMusic();
-  });
-
+  // DON'T auto-load music here — set src only when user clicks
+  // This prevents any audio events from interfering with lock screen
+  btn.addEventListener('click', handleMusicClick);
   updateMusicUI();
+}
+
+function handleMusicClick() {
+  const audio = $('bg-music');
+  if (!audio) return;
+
+  // Set src on first click if not already set
+  if (!audio.src || audio.src === window.location.href) {
+    audio.src = storyConfig.music.src;
+    audio.load();
+  }
+
+  if (state.musicPlaying) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
 }
 
 function toggleMusic() {
@@ -235,6 +237,13 @@ function toggleMusic() {
 function startMusic() {
   const audio = $('bg-music');
   if (!audio) return;
+
+  // Ensure src is set
+  if (!audio.src || audio.src === window.location.href) {
+    audio.src = storyConfig.music.src;
+    audio.load();
+  }
+
   audio.volume = 0;
   const playPromise = audio.play();
   if (playPromise !== undefined) {
@@ -244,7 +253,7 @@ function startMusic() {
       fadeAudioIn(audio, 0.45, storyConfig.music.fadeTime);
       updateMusicUI();
     }).catch(() => {
-      // Autoplay blocked, that's OK
+      // Autoplay blocked — user must interact first, that's fine
     });
   }
 }
